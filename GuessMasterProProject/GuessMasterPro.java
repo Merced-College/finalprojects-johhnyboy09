@@ -5,7 +5,7 @@ public class GuessMasterPro {
     private Set<Character> guessedLetters = new HashSet<>();
     private int remainingGuesses = 6;
     private Stack<Character> guessHistory = new Stack<>();
-    private int score = 0; // Score system added
+    private int score = 0;
 
     public GuessMasterPro(String word) {
         this.hiddenWord = word.toLowerCase();
@@ -26,16 +26,15 @@ public class GuessMasterPro {
     public boolean makeGuess(char letter) {
         letter = Character.toLowerCase(letter);
         if (!Character.isLetter(letter) || guessedLetters.contains(letter)) {
-            return false; // invalid or repeated guess
+            return false;
         }
         guessedLetters.add(letter);
         guessHistory.push(letter);
-
         if (hiddenWord.contains(String.valueOf(letter))) {
-            score += 10; // Add points for a correct guess
+            score += 10;
         } else {
             remainingGuesses--;
-            score -= 5; // Subtract points for a wrong guess
+            score -= 5;
         }
         return true;
     }
@@ -50,16 +49,42 @@ public class GuessMasterPro {
     }
 
     public int getScore() {
-        return score; // Returns current score
+        return score;
     }
 
     public int getRemainingGuesses() {
-        return remainingGuesses; // Optional helper for UI
+        return remainingGuesses;
     }
+}
+class Main {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        GuessMasterPro game = new GuessMasterPro("elephant");
 
-    public Stack<Character> getGuessHistory() {
-        return guessHistory;
+        System.out.println("Welcome to GuessMasterPro!");
+        while (!game.hasWon() && game.getRemainingGuesses() > 0) {
+            System.out.println("\nWord: " + game.getCurrentGuessState());
+            System.out.println("Score: " + game.getScore());
+            System.out.println("Remaining guesses: " + game.getRemainingGuesses());
+            System.out.print("Enter a letter: ");
+            String input = scanner.nextLine();
+            if (input.length() != 1) {
+                System.out.println("Please enter only one letter.");
+                continue;
+            }
+
+            char guess = input.charAt(0);
+            boolean success = game.makeGuess(guess);
+            if (!success) {
+                System.out.println("Invalid or repeated guess.");
+            }
+        }
+
+        if (game.hasWon()) {
+            System.out.println("Congratulations! You guessed the word: " + game.getCurrentGuessState());
+        } else {
+            System.out.println("Game over! The word was: elephant");
+        }
+        System.out.println("Final Score: " + game.getScore());
     }
-
-    // Comment 6: Score system rewards correct guesses (+10) and punishes incorrect ones (-5)
 }
