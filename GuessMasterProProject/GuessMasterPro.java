@@ -1,17 +1,16 @@
 import java.util.*;
 
 public class GuessMasterPro {
-    // Main class for the game
     private String hiddenWord;
     private Set<Character> guessedLetters = new HashSet<>();
     private int remainingGuesses = 6;
     private Stack<Character> guessHistory = new Stack<>();
+    private int score = 0; // Score system added
 
     public GuessMasterPro(String word) {
         this.hiddenWord = word.toLowerCase();
     }
 
-    // Displays the current word with guessed letters shown and others as '_'
     public String getCurrentGuessState() {
         StringBuilder display = new StringBuilder();
         for (char c : hiddenWord.toCharArray()) {
@@ -24,7 +23,6 @@ public class GuessMasterPro {
         return display.toString().trim();
     }
 
-    // Process a letter guess from the user
     public boolean makeGuess(char letter) {
         letter = Character.toLowerCase(letter);
         if (!Character.isLetter(letter) || guessedLetters.contains(letter)) {
@@ -32,13 +30,16 @@ public class GuessMasterPro {
         }
         guessedLetters.add(letter);
         guessHistory.push(letter);
-        if (!hiddenWord.contains(String.valueOf(letter))) {
+
+        if (hiddenWord.contains(String.valueOf(letter))) {
+            score += 10; // Add points for a correct guess
+        } else {
             remainingGuesses--;
+            score -= 5; // Subtract points for a wrong guess
         }
         return true;
     }
 
-    // Check if the player has won
     public boolean hasWon() {
         for (char c : hiddenWord.toCharArray()) {
             if (!guessedLetters.contains(c)) {
@@ -48,9 +49,17 @@ public class GuessMasterPro {
         return true;
     }
 
-    // Comment 1: Constructor initializes game with a given hidden word
-    // Comment 2: getCurrentGuessState shows the guessed word progress with underscores
-    // Comment 3: makeGuess handles letter checking and updates guess history
-    // Comment 4: hasWon checks if all letters in the word have been guessed
-    // Comment 5: guessHistory stack allows implementing an undo feature later
+    public int getScore() {
+        return score; // Returns current score
+    }
+
+    public int getRemainingGuesses() {
+        return remainingGuesses; // Optional helper for UI
+    }
+
+    public Stack<Character> getGuessHistory() {
+        return guessHistory;
+    }
+
+    // Comment 6: Score system rewards correct guesses (+10) and punishes incorrect ones (-5)
 }
