@@ -1,0 +1,40 @@
+GuessMasterPro Final Project Report
+1. Game Description
+GuessMasterPro is a terminal-based word guessing game where players try to reveal a hidden word by guessing one letter at a time. The game tracks player guesses, handles correct and incorrect inputs, and includes a scoring system. The player wins by revealing the entire word before running out of guesses. It’s entertaining, easy to use, and showcases important programming concepts including algorithms, data structures, and object-oriented design.
+2. Algorithms
+Algorithm #1: Letter Guessing
+This algorithm processes the player's guess, checks if it’s valid, updates the guessed letters, and adjusts the score:
+Steps:
+1. Convert input to lowercase.
+2. Check if letter is valid and not already guessed.
+3. Add to guess history and guessed letters set.
+4. If the letter is in the word, increase score.
+5. If not, decrease score and remaining guesses.
+Big O Time Complexity: O(n) where n is the length of the word.
+Algorithm #2: Win Check
+This algorithm checks if the player has guessed all the letters in the word:
+Steps:
+1. Loop through each letter in the word.
+2. Check if it's in the guessedLetters set.
+3. If all are guessed, return true.
+Big O Time Complexity: O(n) where n is the length of the word.
+Algorithm #3: Score Tracker
+This algorithm maintains a score that updates with each guess:
+Steps:
+1. If guess is correct, add 10 points.
+2. If incorrect, subtract 5 points.
+3. Use getScore() to return score.
+Big O Time Complexity: O(1) — constant time.
+3. Data Structures Used
+GuessMasterPro uses several data structures:
+- HashSet<Character>: Stores guessed letters for fast lookup (O(1) time).
+- Stack<Character>: Maintains a history of guesses to support future undo features.
+- String: Used to store the hidden word.
+These structures were chosen for their efficiency and direct support for the game’s functionality.
+4. Design Experience
+Opportunity Taken
+An opportunity came when considering how to make the game more dynamic. A scoring system was added, giving players a better sense of progress and competition.
+Problem Encountered
+Initially, repeated guesses weren’t being handled properly. The makeGuess function was updated to reject already-guessed letters, fixing the issue and improving user experience.
+5. Future Changes
+In the next version, I would add a menu system with the ability to play again, provide hints, and allow the user to undo their last guess using the stack.
